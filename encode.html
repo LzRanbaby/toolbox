@@ -1,0 +1,14 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>编码转换 · 小工具箱</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>编码转换</h1><p class="sub">Base64 和 URL 编码，中文内容也能正确处理。</p>
+<h3>输入</h3><textarea id="i" style="min-height:120px" spellcheck="false"></textarea>
+<div class="row"><button class="p" onclick="run(b64e)">Base64 编码</button><button onclick="run(b64d)">Base64 解码</button><button class="p" onclick="run(encodeURIComponent)">URL 编码</button><button onclick="run(decodeURIComponent)">URL 解码</button></div>
+<div id="msg" class="msg"></div>
+<h3>结果</h3><textarea id="o" style="min-height:120px" readonly></textarea>
+<div class="row"><button onclick="cp($('#o').value,this)">复制结果</button></div>
+</main><script src="app.js"></script>
+<script>
+const E=new TextEncoder(),D=new TextDecoder();
+const b64e=s=>btoa(Array.from(E.encode(s),c=>String.fromCharCode(c)).join(''));
+const b64d=s=>D.decode(Uint8Array.from(atob(s.trim()),c=>c.charCodeAt(0)));
+function run(fn){try{$('#o').value=fn($('#i').value);say('')}catch(x){say('转换失败：输入内容的格式不正确',1)}}
+</script></body></html>

@@ -1,0 +1,14 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>颜色转换 · 小工具箱</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>颜色转换</h1><p class="sub">选一个颜色，或输入 HEX 值。点击 RGB、HSL 输入框即可复制。</p>
+<div class="row"><input type="color" id="c" style="flex:0 0 96px;height:96px;padding:4px" aria-label="选色"><div style="flex:3;display:grid;gap:8px"><input id="hex" aria-label="HEX"><input id="rgb" readonly aria-label="RGB"><input id="hsl" readonly aria-label="HSL"></div></div>
+</main><script src="app.js"></script>
+<script>
+function set(h,k){h=h.replace('#','');if(h.length==3)h=[...h].map(x=>x+x).join('');if(!/^[0-9a-f]{6}$/i.test(h))return;
+const[r,g,b]=[0,2,4].map(i=>parseInt(h.substr(i,2),16)),x=r/255,y=g/255,z=b/255,M=Math.max(x,y,z),n=Math.min(x,y,z),l=(M+n)/2,d=M-n;
+let H=0,S=0;if(d){S=d/(1-Math.abs(2*l-1));H=M==x?((y-z)/d)%6:M==y?(z-x)/d+2:(x-y)/d+4;H=Math.round(H*60);if(H<0)H+=360}
+h='#'+h.toLowerCase();$('#c').value=h;if(!k)$('#hex').value=h;
+$('#rgb').value=`rgb(${r}, ${g}, ${b})`;$('#hsl').value=`hsl(${H}, ${Math.round(S*100)}%, ${Math.round(l*100)}%)`}
+$('#c').oninput=e=>set(e.target.value);$('#hex').oninput=e=>set(e.target.value,1);
+$('#rgb').onclick=e=>cp(e.target.value,e.target);$('#hsl').onclick=$('#rgb').onclick;
+set('#2447d8');
+</script></body></html>

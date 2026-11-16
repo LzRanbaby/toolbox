@@ -1,0 +1,14 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>时间戳 · 小工具箱</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>时间戳转换</h1><p class="sub">自动识别秒和毫秒。日期按你电脑当前的时区计算。</p>
+<div class="pn">当前时间戳<div id="now" style="font-size:24px;font-family:ui-monospace,Menlo,Consolas,monospace"></div></div>
+<h3>时间戳转日期</h3><div class="row"><input id="ts" placeholder="例如 1700000000"><button class="p" onclick="a()">转换</button></div><div id="r1" class="msg"></div>
+<h3>日期转时间戳</h3><div class="row"><input id="dt" type="datetime-local" step="1"><button class="p" onclick="b()">转换</button></div><div id="r2" class="msg"></div>
+</main><script src="app.js"></script>
+<script>
+const p=n=>String(n).padStart(2,'0');
+const fmt=d=>`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+function tick(){$('#now').textContent=Math.floor(Date.now()/1000)+'　'+fmt(new Date())}
+tick();setInterval(tick,1000);
+function a(){let n=+$('#ts').value.trim();const o=$('#r1');if(!n){o.textContent='请输入有效数字';return}if(n<1e11)n*=1000;const d=new Date(n);o.textContent='本地时间：'+fmt(d)+'　UTC：'+d.toISOString()}
+function b(){const v=$('#dt').value;if(!v){$('#r2').textContent='请选择日期和时间';return}const t=new Date(v).getTime();$('#r2').textContent='秒：'+t/1000+'　毫秒：'+t}
+</script></body></html>

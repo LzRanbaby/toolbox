@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JSON 格式化 · 小工具箱</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>JSON 格式化</h1><p class="sub">粘贴 JSON 后选择操作，结果会直接替换输入框内容。</p>
+<textarea id="i" placeholder='{"name":"示例","list":[1,2,3]}' spellcheck="false"></textarea>
+<div class="row"><button class="p" onclick="f(2)">格式化</button><button onclick="f(0)">压缩</button><button onclick="cp($('#i').value,this)">复制</button><button onclick="$('#i').value='';say('')">清空</button></div>
+<div id="msg" class="msg"></div>
+</main><script src="app.js"></script>
+<script>
+function f(n){try{const v=JSON.parse($('#i').value);$('#i').value=JSON.stringify(v,null,n);say('JSON 有效')}catch(e){say('语法错误：'+e.message,1)}}
+</script></body></html>

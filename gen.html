@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>随机生成 · 小工具箱</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>随机生成</h1><p class="sub">密码和 UUID 都由浏览器的安全随机数生成。点击结果即可复制。</p>
+<div class="pn"><h3 style="margin-top:0">密码</h3><div class="row"><input id="len" type="number" value="16" min="6" max="64" aria-label="长度"><select id="set" aria-label="字符类型"><option value="a">字母和数字</option><option value="b" selected>字母、数字和符号</option><option value="c">仅数字</option></select><button class="p" onclick="pw()">重新生成</button></div><input id="pw" readonly onclick="cp(this.value,this)"></div>
+<div class="pn" style="margin-top:14px"><h3 style="margin-top:0">UUID v4</h3><div class="row"><button class="p" onclick="uid()">重新生成</button></div><input id="uu" readonly onclick="cp(this.value,this)"></div>
+</main><script src="app.js"></script>
+<script>
+const S={a:"ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789",b:"ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*-_=+?",c:"0123456789"};
+function pw(){const s=S[$('#set').value],n=Math.min(64,Math.max(6,+$('#len').value||16)),r=crypto.getRandomValues(new Uint32Array(n));$('#pw').value=[...r].map(x=>s[x%s.length]).join('')}
+function uid(){$('#uu').value=crypto.randomUUID?crypto.randomUUID():"10000000-1000-4000-8000-100000000000".replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16))}
+pw();uid();
+</script></body></html>
